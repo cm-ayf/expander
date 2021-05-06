@@ -10,22 +10,23 @@ client.on('ready', () => console.log(`Logged in as ${client.user.tag}!`));
 client.on('message', msg => {
     try{
         if (msg.author.bot) return;
-        let msgurls = msg.content.matchAll(regurl);
+        let msgurls = msg.content.match(regurl);
+        if (!msgurls) return;
         for (let msgurl of msgurls) {
-            let ids = msgurl[0].split('/').slice(4);
+            let ids = msgurl.split('/').slice(4);
             if (ids[0] != msg.guild.id) {
-                msg.reply(`\`${msgurl[0]}\`\nis not from this server. I could not expand it.`);
+                msg.reply(`\`${msgurl}\`\nis not from this server. I could not expand it.`);
                 continue;
             }
             let cnl = msg.guild.channels.cache.get(ids[1]);
             if (!cnl.viewable) {
-                msg.reply(`I didn't have permission to see \n\`${msgurl[0]}\`.\nI could not expand it.`);
+                msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`);
                 continue;
             }
             cnl.messages.fetch(ids[2]).then(target => {
                 let name;
                 if (target.member) {
-                    name = target.member.displayName;
+                    name = target.member.nickname;
                 }else{
                     name = target.author.username;
                 }
