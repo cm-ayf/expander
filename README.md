@@ -1,1 +1,3 @@
-# expander
+# Expander
+
+DiscordのメッセージURLを同じサーバー内で貼ると、下のメッセージをある程度表示してくれます。
