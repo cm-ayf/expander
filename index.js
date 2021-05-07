@@ -42,7 +42,7 @@ client.on('message', msg => {
                         icon_url: msg.guild.iconURL()
                     }
                 });
-                let attaches = target.attachment;
+                let attaches = target.attachments;
                 if (attaches) msgembed.setImage(attaches.array()[0].proxyURL);
                 let embeds = target.embeds;
                 if (embeds.length) msgembed.description += '\n(Original message was embedded.)';
