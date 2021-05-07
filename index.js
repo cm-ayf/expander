@@ -46,7 +46,7 @@ client.on('message', msg => {
                 if (attach) msgembed.setImage(attach.url);
                 let embeds = target.embeds;
                 if (embeds.length) msgembed.description += '\n(Original message was embedded.)';
-                msg.reply(msgembed, {disableMentions: 'all'});
+                msg.channel.send(msgembed);
             });
         };
     }catch(e){
