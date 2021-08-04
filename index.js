@@ -26,9 +26,15 @@ client.on('message', msg => {
             cnl.messages.fetch(ids[2]).then(target => {
                 let name;
                 if (target.member) {
-                    name = target.member.nickname;
+                    name = target.member.displayName;
                 }else{
                     name = target.author.username;
+                }
+                let channel_name;
+                if (cnl.parent) {
+                    channel_name = cnl.parent.name + ' > ' + cnl.name;
+                }else{
+                    channel_name = cnl.name;
                 }
                 let msgembed = new Discord.MessageEmbed({
                     author: {
@@ -38,7 +44,7 @@ client.on('message', msg => {
                     description: target.content,
                     timestamp: target.createdAt,
                     footer: {
-                        text: cnl.parent.name + ' > ' + cnl.name,
+                        text: channel_name,
                         icon_url: msg.guild.iconURL()
                     }
                 });
