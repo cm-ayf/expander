@@ -19,7 +19,7 @@ client.on('message', msg => {
                 continue;
             }
             let cnl = msg.guild.channels.cache.get(ids[1]);
-            if (!cnl.viewable) {
+            if (!cnl.manageable) {
                 msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`);
                 continue;
             }
