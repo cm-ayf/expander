@@ -51,8 +51,11 @@ client.on('message', msg => {
                 let attach = target.attachments.find(att => att.width);
                 if (attach) msgembed.setImage(attach.url);
                 let embeds = target.embeds;
-                if (embeds.length) msgembed.description += '\n(Original message was embedded.)';
+                if (embeds.length) msgembed.description += `\n(${embeds.length} ${embeds.length == 1 ? 'embed follows.' : 'embeds follow.'})`;
                 msg.channel.send(msgembed);
+                for (let embed of embeds) {
+                    msg.channel.send(embed);
+                };
             });
         };
     }catch(e){
