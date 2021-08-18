@@ -1,7 +1,15 @@
 const Discord = require('discord.js');
+const express = require('express');
 require('dotenv').config();
 
 const client = new Discord.Client();
+const app = express();
+
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => res.send(`Logged in as ${client.user.tag}!`));
+
+app.listen(port, () => console.log(`listening on port ${port}!`));
 
 const regurl = /https:\/\/discord(app)?.com\/channels(\/\d{18}){3}/g;
 
