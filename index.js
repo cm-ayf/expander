@@ -15,12 +15,14 @@ client.on('message', msg => {
         for (let msgurl of msgurls) {
             let ids = msgurl.split('/').slice(4);
             if (ids[0] != msg.guild.id) {
-                msg.reply(`\`${msgurl}\`\nis not from this server. I could not expand it.`);
+                msg.reply(`\`${msgurl}\`\nis not from this server. I could not expand it.`)
+                    .catch(e => console.error(e));
                 continue;
             }
             let cnl = msg.guild.channels.cache.get(ids[1]);
             if (!cnl.manageable) {
-                msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`);
+                msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`)
+                    .catch(e => console.error(e));
                 continue;
             }
             cnl.messages.fetch(ids[2]).then(target => {
@@ -52,17 +54,19 @@ client.on('message', msg => {
                 if (attach) msgembed.setImage(attach.url);
                 let embeds = target.embeds;
                 if (embeds.length) msgembed.description += `\n(${embeds.length} ${embeds.length == 1 ? 'embed follows.' : 'embeds follow.'})`;
-                msg.channel.send(msgembed);
+                msg.channel.send(msgembed)
+                    .catch(e => console.error(e));
                 for (let embed of embeds) {
-                    msg.channel.send(embed);
+                    msg.channel.send(embed)
+                        .catch(e => console.error(e));
                 };
-            });
+            }).catch(e => console.error(e));
         };
     }catch(e){
         msg.reply('unexpected error.')
     }
 });
 
-client.on('channelCreate', channel => channel.fetch());
+client.on('channelCreate', channel => channel.fetch().catch(e => console.error(e)));
 
-client.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN).catch(e => console.error(e));
