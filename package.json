@@ -17,6 +17,9 @@
     "url": "https://github.com/cm-ayf/expander/issues"
   },
   "homepage": "https://github.com/cm-ayf/expander#readme",
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "discord.js": "^12.5.3",
     "dotenv": "^9.0.0"
