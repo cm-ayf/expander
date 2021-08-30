@@ -1,5 +1,8 @@
 const { Client, Intents, MessageEmbed } = require('discord.js');
+const express = require('express');
 require('dotenv').config();
+
+const app = express();
 
 const client = new Client({
     intents: [
@@ -7,6 +10,10 @@ const client = new Client({
         Intents.FLAGS.GUILDS
     ]
 });
+
+app.get('/', (req, res) => res.send(`Logged in as ${client.user.tag}!`));
+
+app.listen(process.env.PORT);
 
 const regurl = /https:\/\/discord(app)?.com\/channels(\/\d{18}){3}/g;
 
