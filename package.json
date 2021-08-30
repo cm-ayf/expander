@@ -1,18 +1,17 @@
 {
   "name": "expander",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Discord bot that expands message from message link.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cm-ayf/expander.git"
+    "url": "https://github.com/cm-ayf/expander"
   },
   "author": "cm_ayf",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cm-ayf/expander/issues"
   },
