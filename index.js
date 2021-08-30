@@ -1,13 +1,18 @@
-const Discord = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
 require('dotenv').config();
 
-const client = new Discord.Client();
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILDS
+    ]
+});
 
 const regurl = /https:\/\/discord(app)?.com\/channels(\/\d{18}){3}/g;
 
 client.on('ready', () => console.log(`Logged in as ${client.user.tag}!`));
 
-client.on('message', msg => {
+client.on('messageCreate', msg => {
     if (msg.author.bot) return;
     let msgurls = msg.content.match(regurl);
     if (!msgurls) return;
@@ -37,7 +42,7 @@ client.on('message', msg => {
             }else{
                 channel_name = cnl.name;
             }
-            let msgembed = new Discord.MessageEmbed({
+            let msgembed = new MessageEmbed({
                 author: {
                     name: name,
                     icon_url: target.author.avatarURL()
@@ -53,12 +58,9 @@ client.on('message', msg => {
             if (attach) msgembed.setImage(attach.url);
             let embeds = target.embeds;
             if (embeds.length) msgembed.description += `\n(${embeds.length} ${embeds.length == 1 ? 'embed follows.' : 'embeds follow.'})`;
-            msg.channel.send(msgembed)
-                .catch(e => console.error(e));
-            for (let embed of embeds) {
-                msg.channel.send(embed)
-                    .catch(e => console.error(e));
-            };
+            msg.channel.send({
+                embeds: [msgembed].concat(embeds)
+            }).catch(e => console.error(e));
         }).catch(e => console.error(e));
     };
 });
