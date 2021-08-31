@@ -1,4 +1,4 @@
-const { Client, Intents, MessageEmbed } = require('discord.js');
+const { Client, Intents, Permissions, MessageEmbed } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({
@@ -22,14 +22,15 @@ client.on('messageCreate', msg => {
     msgurls.forEach(async msgurl => {
         let ids = msgurl.split('/').slice(4);
         if (ids[0] != msg.guild.id) {
-            msg.reply(`\`${msgurl}\`\nis not from this server. I could not expand it.`)
+            msg.channel.send(`\`${msgurl}\`\nis not from this server. I could not expand it.`)
                 .catch(e => console.error(e));
             return;
         }
 
         let cnl = await msg.guild.channels.fetch(ids[1]);
-        if (!cnl.manageable) {
-            msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`)
+        let allowed = cnl.permissionsFor(client.user).has(Permissions.FLAGS.READ_MESSAGE_HISTORY);
+        if (!allowed) {
+            msg.channel.send(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`)
                 .catch(e => console.error(e));
             return;
         }
