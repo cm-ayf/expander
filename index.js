@@ -75,6 +75,9 @@ client.on('messageCreate', msg => {
     });
 });
 
-client.on('channelCreate', channel => channel.fetch().catch(e => console.error(e)));
+client.on('threadCreate', cnl => {
+    cnl.join()
+        .catch(e => console.error(e));
+});
 
 client.login(process.env.BOT_TOKEN).catch(e => console.error(e));
