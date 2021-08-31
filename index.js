@@ -44,12 +44,14 @@ client.on('messageCreate', msg => {
             name = target.author.username;
         }
 
-        let channel_name;
-        if (cnl.parent) {
-            channel_name = cnl.parent.name + ' > ' + cnl.name;
-        }else{
-            channel_name = cnl.name;
+        let channel_name　= '';
+        if (cnl.parent.parent) {
+            channel_name += cnl.parent.parent.name + ' > ';
         }
+        if (cnl.parent) {
+            channel_name += cnl.parent.name + ' > ';
+        }
+        channel_name += cnl.name;
 
         let msgembed = new MessageEmbed({
             author: {
