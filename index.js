@@ -24,14 +24,14 @@ client.on('messageCreate', msg => {
         if (ids[0] != msg.guild.id) {
             msg.reply(`\`${msgurl}\`\nis not from this server. I could not expand it.`)
                 .catch(e => console.error(e));
-            continue;
+            return;
         }
 
         let cnl = await msg.guild.channels.fetch(ids[1]);
         if (!cnl.manageable) {
             msg.reply(`I didn't have permission to see \n\`${msgurl}\`.\nI could not expand it.`)
                 .catch(e => console.error(e));
-            continue;
+            return;
         }
 
         let target = await cnl.messages.fetch(ids[2]);
