@@ -1,8 +1,7 @@
-import { Client, Message, MessageEmbed, NewsChannel, Permissions, TextChannel, ThreadChannel } from "discord.js";
-
+import { Client, GuildTextBasedChannel, Message, MessageEmbed, NewsChannel, Permissions, TextChannel, ThreadChannel } from "discord.js";
 
 export default function expand(client: Client, message: Message) {
-    async function getMessage(url: string): Promise<[TextChannel | NewsChannel | ThreadChannel, Message]> {
+    async function getMessage(url: string): Promise<[GuildTextBasedChannel, Message]> {
         let ids = url.split('/').slice(4);
         if (ids[0] != message.guild.id) throw new Error(`\`${url}\`\nis not from this server. I could not expand it.`);
 
@@ -15,9 +14,7 @@ export default function expand(client: Client, message: Message) {
         return [channel, await channel.messages.fetch(ids[2])];
     }
 
-    return async (url: string) => {
-        let [channel, target] = await getMessage(url);
-
+    function createEmbeds(channel: GuildTextBasedChannel, target: Message) {
         let name = target.member ? target.member.displayName : target.author.username;
     
         let channelDesc = '';
@@ -44,8 +41,14 @@ export default function expand(client: Client, message: Message) {
         let embeds = target.embeds;
         if (embeds.length) embed.description += `\n(${embeds.length} ${embeds.length == 1 ? 'embed follows.' : 'embeds follow.'})`;
     
-        message.channel.send({
-            embeds: [embed, ...embeds]
-        }).catch(e => console.error(e));
+        return [embed, ...embeds];
+    }
+
+    return async (url: string) => {
+        let [channel, target] = await getMessage(url);
+        let embeds = createEmbeds(channel, target);
+
+        message.channel.send({ embeds })
+            .catch(e => console.error(e));
     };
 }
