@@ -4,7 +4,10 @@
   "description": "A Discord bot that expands message from message link.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js"
+    "build": "npx tsc",
+    "start": "pm2 start pm2-service.json",
+    "dev": "npx ts-node src/index.ts",
+    "dev:watch": "npx ts-node-dev src/index.ts"
   },
   "repository": {
     "type": "git",
