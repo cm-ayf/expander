@@ -42,14 +42,15 @@ export default function expand(client: Client<true>, message: Message) {
                 name: member ? member.displayName : author.username,
                 icon_url: (member ?? author).displayAvatarURL(),
             },
-            description:
-                content + (embeds.length > 0)
+            description: `${content}${
+                embeds.length > 0
                     ? `\n(${embeds.length} ${
                           embeds.length == 1
                               ? "embed follows."
                               : "embeds follow."
                       })`
-                    : "",
+                    : ""
+            }`,
             timestamp: createdAt,
             footer: {
                 text: channel.parent?.parent
