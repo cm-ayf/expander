@@ -28,7 +28,7 @@ export default function expand(client: Client, message: Message) {
         let embed = new MessageEmbed({
             author: {
                 name: name,
-                icon_url: target.author.displayAvatarURL()
+                icon_url: target.member.displayAvatarURL()
             },
             description: target.content,
             timestamp: target.createdAt,
