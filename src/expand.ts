@@ -37,33 +37,32 @@ export default function expand(client: Client<true>, message: Message) {
         channel,
         { member, author, content, createdAt, attachments, embeds },
     ]: [GuildTextBasedChannel, Message]) {
-        let name = member ? member.displayName : author.username;
-
-        let channelDesc = "";
-        if (channel.parent?.parent)
-            channelDesc += channel.parent?.parent.name + " > ";
-        if (channel.parent) channelDesc += channel.parent.name + " > ";
-        channelDesc += channel.name;
-
         let embed = new MessageEmbed({
             author: {
-                name: name,
+                name: member ? member.displayName : author.username,
                 icon_url: (member ?? author).displayAvatarURL(),
             },
-            description: content,
+            description:
+                content + (embeds.length > 0)
+                    ? `\n(${embeds.length} ${
+                          embeds.length == 1
+                              ? "embed follows."
+                              : "embeds follow."
+                      })`
+                    : "",
             timestamp: createdAt,
             footer: {
-                text: channelDesc,
+                text: channel.parent?.parent
+                    ? `${channel.parent.parent.name} > `
+                    : "" + channel.parent
+                    ? `${channel.parent?.name} > `
+                    : "" + channel.name,
                 icon_url: message.guild?.iconURL() ?? undefined,
             },
+            image: {
+                url: attachments.find((att) => !!att.width)?.url,
+            },
         });
-
-        let attach = attachments.find((att) => !!att.width);
-        if (attach) embed.setImage(attach.url);
-        if (embeds.length)
-            embed.description += `\n(${embeds.length} ${
-                embeds.length == 1 ? "embed follows." : "embeds follow."
-            })`;
 
         return [embed, ...embeds];
     }

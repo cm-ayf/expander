@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "expander",
-            "script": "./index.js",
+            "script": "./dist/index.js",
             "instances": 1,
             "watch": true,
             "exec_mode": "cluster",

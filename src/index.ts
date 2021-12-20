@@ -17,7 +17,7 @@ client.on("ready", (client) => {
 client.on("messageCreate", (message) => {
     if (message.author.bot) return;
     let urls = message.content.match(regurl);
-    if (!(urls && urls.length < 6)) return;
+    if (!urls) return;
 
     urls.forEach(expand(client, message));
 });
