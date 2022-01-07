@@ -1,5 +1,5 @@
-import readenv from "@cm-ayf/readenv";
-import dotenv from "dotenv";
+import readenv from '@cm-ayf/readenv';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
