@@ -88,7 +88,16 @@ export default function expand(client: Client<true>, message: Message) {
     return (match: RegExpMatchArray) =>
         getMessage(match)
             .then(createEmbeds)
-            .then((embeds) => message.channel.send({ embeds }))
+            .then((embeds) => message.channel.send({
+                embeds,
+                allowedMentions:{
+                    repliedUser: false
+                },
+                reply: {
+                    messageReference: message,
+                    failIfNotExists: false
+                }
+            }))
             .catch((error) => message.channel.send(`${error as Error}`))
             .catch(console.error);
 }
